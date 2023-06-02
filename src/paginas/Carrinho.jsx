@@ -1,4 +1,4 @@
-function Montagem() {
+function Carrinho() {
   return (
     <div className="principal">
       <h3>Conteúdo da página montagem</h3>
@@ -6,4 +6,4 @@ function Montagem() {
   );
 }
 
-export default Montagem;
+export default Carrinho;

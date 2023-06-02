@@ -5,30 +5,30 @@ import Aside from "../layout/Aside";
 
 function Cadastros() {
 
-  const [area, setArea] = useState(null);
-  const [areas, setAreas] = useState([]);
+  const [cliente, setCliente] = useState(null);
+  const [clientes, setClientes] = useState([]);
 
-  function novaArea(){
-    setArea({
+  function novoCliente(){
+    setCliente({
         descricao: ""
       });
   }
 
   function cancelar(){
-    setArea(null);
+    setCliente(null);
   }
 
-  function editarArea(area){
-    setArea(area);
+  function editarCliente(cliente){
+    setCliente(cliente);
   }
 
-  function salvarArea(){
-    if(area._id){
-      axios.put("http://localhost:3005/areas/" + area._id, area).then((res)=> {
+  function salvarCliente(){
+    if(cliente._id){
+      axios.put("http://localhost:3001/cliente/cadastro" + cliente._id, cliente).then((res)=> {
         refresh();
       });
     } else {
-      axios.post("http://localhost:3005/areas", area).then((res)=> {
+      axios.post("http://localhost:3001/cliente/cadastro", cliente).then((res)=> {
         refresh();
       });
     }
@@ -36,54 +36,58 @@ function Cadastros() {
 
   function refresh(){
     cancelar();
-    getAreas();
+    getClientes();
   }
 
-  function onChangeArea(event, id){
+  function onChangeCliente(event, id){
     setArea({
       _id : id,
       descricao: event.target.value
     });
   }
 
-  function getAreas() {
+  function getClientes() {
     console.log("Passou por aqui...");
-    axios.get("http://localhost:3005/areas").then((resposta) => {
+    axios.get("http://localhost:3001/cliente/listar").then((resposta) => {
       console.log(resposta.data);
-      setAreas(resposta.data);
+      setClientes(resposta.data);
     });
   }
 
-  useEffect(getAreas, []);
+  useEffect(getClientes, []);
 
-  function excluirArea(id) {
-    axios.delete("http://localhost:3005/areas/" + id).then(() => {
+  function excluirCliente(id) {
+    axios.delete("http://localhost:3001/cliente/listar" + id).then(() => {
       console.log("bye bye");
-      getAreas();
+      getClientes();
     });
   }
 
-  function getLinha(area){
+  function getLinha(cliente){
     return (
       <tr>
-        <td>{area._id}</td>
-        <td>{area.descricao}</td>
+        <td>{cliente._id}</td>
+        <td>{cliente.nome}</td>
+        <td>{cliente.endereco}</td>
+        <td>{cliente.data_nasc}</td>
+        <td>{cliente.cpf}</td>
+        <td>{cliente.contato}</td>
         <td>
           <button
             onClick={() => {
               if (
                 window.confirm(
-                  "Confirmar a exclusão da área " + area.descricao + "?"
+                  "Confirmar a exclusão da área " + cliente.nome + "?"
                 )
               ) {
-                excluirArea(area._id);
+                excluirCliente(cliente._id);
               }
             }}
           >
             Excluir
           </button>
           <button onClick={()=>{
-            editarArea(area);
+            editarCliente(cliente);
           }} >Editar</button>
         </td>
       </tr>
@@ -92,9 +96,9 @@ function Cadastros() {
 
   function getLinhas() {
     const linhas = [];
-    for(let i = 0; i < areas.length; i++){
-      const area = areas[i];
-      linhas[i] = getLinha(area);
+    for(let i = 0; i < clientes.length; i++){
+      const cliente = cliente[i];
+      linhas[i] = getLinha(cliente);
     }
     return linhas;
     //return areas.map((area) => getLinha(area));
@@ -120,35 +124,35 @@ function Cadastros() {
     return (
         <form>
           <label>Nome</label>
-          <input type="text" value={area.nome}/>
+          <input type="text" value={cliente.nome}/>
           <label>Endereço</label>
-          <input type="text" value={area.endereco}/>
+          <input type="text" value={cliente.endereco}/>
           <label>Data de Nascimento</label>
-          <input type="text" value={area.data_nasc}/>
+          <input type="text" value={cliente.data_nasc}/>
           <label>CPF</label>
-          <input type="text" value={area.cpf}/>
+          <input type="text" value={cliente.cpf}/>
           <label>Contato</label>
-          <input type="text" value={area.contato}/>
+          <input type="text" value={cliente.contato}/>
           
           
 
               onChange={(event)=>{
-                onChangeArea(event, area._id);
+                onChangeCliente(event, cliente._id);
               }}
           
-          <button onClick={salvarArea}>Salvar</button>
+          <button onClick={salvarCliente}>Salvar</button>
           <button onClick={cancelar} >Cancelar</button>
         </form>
     );
   }
 
   function getConteudo(){
-    if(area){
+    if(cliente){
       return getFormulario();
     } else {
       return (
         <>
-            <button onClick={novaArea} >Adicionar Cliente</button>
+            <button onClick={novoCliente} >Adicionar Cliente</button>
             {getTabela()}
         </>
       );

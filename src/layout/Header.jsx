@@ -3,7 +3,7 @@
 function Header(){
     return (
       <header>
-        <h1>Matrix</h1>
+        <h1>Lojinha</h1>
       </header>
     );
 }

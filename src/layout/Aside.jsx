@@ -8,7 +8,7 @@ function Aside() {
           <NavLink to="/cadastros">Clientes</NavLink>
         </li>
         <li>
-          <NavLink to="/atitudes">Produtos</NavLink>
+          <NavLink to="/produtos">Produtos</NavLink>
         </li>
         
       </ul>

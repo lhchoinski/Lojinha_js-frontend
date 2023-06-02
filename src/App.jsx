@@ -4,8 +4,8 @@ import Layout from './layout/Layout';
 import Home from './paginas/Home';
 import Cadastros from './paginas/Cadastros';
 import Atitudes from './paginas/Atitudes';
-import Montagem from './paginas/Montagem';
-import Util from './paginas/Util';
+import Carrinho from './paginas/Carrinho';
+
 import Sobre from './paginas/Sobre';
 
 function App() {
@@ -14,9 +14,8 @@ function App() {
       <Routes>
           <Route path='/' element={<Layout><Home/></Layout>} />
           <Route path='/cadastros' element={<Layout><Cadastros/></Layout>} />   
-          <Route path='/atitudes' element={<Layout><Atitudes/></Layout>} />        
-          <Route path='/montagem' element={<Layout><Montagem/></Layout>} />
-          <Route path='/util' element={<Layout><Util/></Layout>} />
+          <Route path='/produtos' element={<Layout><Atitudes/></Layout>} />        
+          <Route path='/carrinho' element={<Layout><Carrinho/></Layout>} />
           <Route path='/sobre' element={<Layout><Sobre/></Layout>} />
       </Routes>     
     </>
