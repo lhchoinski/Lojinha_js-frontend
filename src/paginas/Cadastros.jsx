@@ -19,20 +19,23 @@ function Cadastros() {
   }
 
   function editarCliente(cliente){
-    setCliente(cliente);
-  }
+    
+}
 
-  function salvarCliente(){
-    if(cliente._id){
-      axios.put("http://localhost:3001/cliente/cadastro" + cliente._id, cliente).then((res)=> {
-        refresh();
-      });
-    } else {
-      axios.post("http://localhost:3001/cliente/cadastro", cliente).then((res)=> {
-        refresh();
-      });
-    }
+function salvarCliente(){
+  if(cliente._id){
+    axios.put("http://localhost:3000/cliente/" + cliente._id, cliente).then((res)=> {
+      refresh();
+    });
+  } else {
+    axios.post("http://localhost:3000/cliente", cliente).then((res)=> {
+      refresh();
+    });
   }
+}
+
+
+
 
   function refresh(){
     cancelar();
@@ -40,24 +43,25 @@ function Cadastros() {
   }
 
   function onChangeCliente(event, id){
-    setArea({
+    setCliente({
       _id : id,
-      descricao: event.target.value
+      nome: event.target.value,
+      endereco: event.target.value
     });
   }
 
   function getClientes() {
     console.log("Passou por aqui...");
-    axios.get("http://localhost:3001/cliente/listar").then((resposta) => {
-      console.log(resposta.data);
+    axios.get("http://localhost:3000/cliente").then((resposta) => {
       setClientes(resposta.data);
+      console.log(resposta.data)
     });
   }
 
   useEffect(getClientes, []);
 
   function excluirCliente(id) {
-    axios.delete("http://localhost:3001/cliente/listar" + id).then(() => {
+    axios.delete("http://localhost:3000/cliente/" + id).then(() => {
       console.log("bye bye");
       getClientes();
     });
@@ -77,7 +81,7 @@ function Cadastros() {
             onClick={() => {
               if (
                 window.confirm(
-                  "Confirmar a exclusão da área " + cliente.nome + "?"
+                  "Confirmar a exclusão do cliente " + cliente.nome + "?"
                 )
               ) {
                 excluirCliente(cliente._id);
@@ -87,7 +91,7 @@ function Cadastros() {
             Excluir
           </button>
           <button onClick={()=>{
-            editarCliente(cliente);
+            editarCliente(cliente._id);
           }} >Editar</button>
         </td>
       </tr>
@@ -97,7 +101,7 @@ function Cadastros() {
   function getLinhas() {
     const linhas = [];
     for(let i = 0; i < clientes.length; i++){
-      const cliente = cliente[i];
+      const cliente = clientes[i];
       linhas[i] = getLinha(cliente);
     }
     return linhas;
@@ -124,22 +128,20 @@ function Cadastros() {
     return (
         <form>
           <label>Nome</label>
-          <input type="text" value={cliente.nome}/>
+          <input type="text" value={cliente.nome}
+         />
           <label>Endereço</label>
-          <input type="text" value={cliente.endereco}/>
+          <input type="text" value={cliente.endereco}
+          />
           <label>Data de Nascimento</label>
-          <input type="text" value={cliente.data_nasc}/>
+          <input type="text" value={cliente.data_nasc}
+          />
           <label>CPF</label>
-          <input type="text" value={cliente.cpf}/>
+          <input type="text" value={cliente.cpf}
+          />
           <label>Contato</label>
-          <input type="text" value={cliente.contato}/>
-          
-          
-
-              onChange={(event)=>{
-                onChangeCliente(event, cliente._id);
-              }}
-          
+          <input type="text" value={cliente.contato}
+          />
           <button onClick={salvarCliente}>Salvar</button>
           <button onClick={cancelar} >Cancelar</button>
         </form>
