@@ -34,21 +34,18 @@ function salvarCliente(){
   }
 }
 
-
-
-
   function refresh(){
     cancelar();
     getClientes();
   }
 
-  function onChangeCliente(event, id){
+  function alterarCliente(campo, valor, id) {
     setCliente({
-      _id : id,
-      nome: event.target.value,
-      endereco: event.target.value
+      _id: id,
+      [campo]: valor,
     });
   }
+
 
   function getClientes() {
     console.log("Passou por aqui...");
@@ -129,6 +126,10 @@ function salvarCliente(){
         <form>
           <label>Nome</label>
           <input type="text" value={cliente.nome}
+           onChange={(e) => {
+            alterarCliente(e.target.name, e.target.value, cliente._id);
+          }}
+
          />
           <label>Endereço</label>
           <input type="text" value={cliente.endereco}
@@ -145,6 +146,8 @@ function salvarCliente(){
           <button onClick={salvarCliente}>Salvar</button>
           <button onClick={cancelar} >Cancelar</button>
         </form>
+
+        
     );
   }
 

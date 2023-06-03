@@ -4,10 +4,7 @@ function Atitudes() {
   return (
     <div className="cadastros">
       <Aside />
-      <div className="conteudo">
-        <h2>Cadastro de Produtos</h2>
-      </div>
-    </div>
+      </div> 
   );
 }
 
