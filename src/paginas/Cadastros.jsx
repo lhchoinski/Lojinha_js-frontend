@@ -1,16 +1,23 @@
 import "./Cadastros.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import Aside from "../layout/Aside";
+
 
 function Cadastros() {
 
+  const [nome, setNome] = useState("");
+  const [data_nasc, setData_nasc] = useState("");
+  const [endereco, setEndereco] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [contato, setContato] = useState("");
   const [cliente, setCliente] = useState(null);
   const [clientes, setClientes] = useState([]);
 
+
+
   function novoCliente(){
     setCliente({
-        descricao: ""
+        nome: ""
       });
   }
 
@@ -125,14 +132,14 @@ function salvarCliente(){
     return (
         <form>
           <label>Nome</label>
-          <input type="text" value={cliente.nome}
+          <input type="text" name="nome" value={cliente.nome}
            onChange={(e) => {
             alterarCliente(e.target.name, e.target.value, cliente._id);
           }}
 
          />
           <label>Endereço</label>
-          <input type="text" value={cliente.endereco}
+          <input type="text" name="endereco" value={cliente.endereco}
           />
           <label>Data de Nascimento</label>
           <input type="text" value={cliente.data_nasc}
@@ -166,13 +173,13 @@ function salvarCliente(){
 
   return (
     <div className="cadastros">
-      <Aside />
+
       <div className="conteudo">
         <h2>Cadastro de Clientes</h2>
         {getConteudo()}
       </div>
     </div>
   );
-}
 
+}
 export default Cadastros;
