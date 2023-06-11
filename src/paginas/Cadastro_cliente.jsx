@@ -3,13 +3,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 
-function Cadastros() {
+function Cadastro_cliente() {
 
-  const [nome, setNome] = useState("");
-  const [data_nasc, setData_nasc] = useState("");
-  const [endereco, setEndereco] = useState("");
-  const [cpf, setCpf] = useState("");
-  const [contato, setContato] = useState("");
+ 
   const [cliente, setCliente] = useState(null);
   const [clientes, setClientes] = useState([]);
 
@@ -182,4 +178,4 @@ function salvarCliente(){
   );
 
 }
-export default Cadastros;
+export default Cadastro_cliente;

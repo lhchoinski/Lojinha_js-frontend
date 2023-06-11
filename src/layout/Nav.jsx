@@ -2,14 +2,21 @@ import { NavLink } from 'react-router-dom';
 
 function Nav(){
 return (
-    <nav>
-    <ul>
-        <li><NavLink to="/">Home</NavLink></li>
-        <li><NavLink to="/cadastros">Cadastros</NavLink></li>
-        <li><NavLink to="/carrinho">Carrinho</NavLink></li>
-        <li><NavLink to="/sobre">Sobre</NavLink></li>
-    </ul>
-    </nav>
+
+<div class="navbar">
+<a><NavLink to="/">Home</NavLink></a>
+<a><NavLink to="/carrinho">Carrinho</NavLink></a>
+<a><NavLink to="/sobre">Sobre</NavLink></a>
+<div class="dropdown">
+  <button class="dropbtn">Cadastros
+    <i class="fa fa-caret-down"></i>
+  </button>
+  <div class="dropdown-content">
+    <a><NavLink to="/Cadastro_cliente">Clientes</NavLink></a>
+    <a><NavLink to="/Cadastro_produto">Produtos</NavLink></a>
+  </div>
+</div>
+</div>
   );
 }
 
