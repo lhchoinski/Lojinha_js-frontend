@@ -8,13 +8,29 @@ function Cadastro_cliente() {
  
   const [cliente, setCliente] = useState(null);
   const [clientes, setClientes] = useState([]);
+  const [nome, setNome] = useState([]);
+  const [endereco, setEndereco] = useState([]);
 
 
 
   function novoCliente(){
     setCliente({
-        nome: ""
+        nome: "",
+        endereco:""
+       
       });
+      
+  }
+
+  const salvarLista = {
+    nome,
+    endereco,
+    
+  };
+
+  const data = {
+    nome: salvarLista.nome,
+    endereco: salvarLista.endereco,
   }
 
   function cancelar(){
@@ -27,7 +43,7 @@ function Cadastro_cliente() {
 
 function salvarCliente(){
   if(cliente._id){
-    axios.put("http://localhost:3000/cliente/" + cliente._id, cliente).then((res)=> {
+    axios.put("http://localhost:3000/cliente/" + data).then((res)=> {
       refresh();
     });
   } else {
@@ -160,7 +176,7 @@ function salvarCliente(){
     } else {
       return (
         <>
-            <button onClick={novoCliente} >Adicionar Cliente</button>
+            <button onClick={novoCliente}>Adicionar Cliente</button>
             {getTabela()}
         </>
       );

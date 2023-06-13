@@ -25,8 +25,7 @@ function Carrinho() {
   const [areasSelecionadas, setAreasSelecionadas] = useState();
   const [cursos, setCursos] = useState([]);
   const [cursosSelecionados, setCursosSelecionados] = useState();
-  const [disciplinasSelecionadas, setDisciplinasSelecionadas] = useState();
-
+ 
   //Funções de carregamento de dados do backend
   function getLinhas() {
     axios.get("http://localhost:3000/pedido").then((resposta) => {
@@ -58,7 +57,6 @@ function Carrinho() {
   function novaLinha() {
     setLinha({
       areas: [],
-      disciplinas: [],
       cursos: [],
     });
   }
@@ -94,7 +92,7 @@ function Carrinho() {
     getLinhas();
     setAreasSelecionadas();
     setCursosSelecionados();
-    setDisciplinasSelecionadas();
+
   }
 
   //Funções para a construção da tela
@@ -107,12 +105,12 @@ function Carrinho() {
       if (linha.areas.includes(area._id)) {
         areasAnteriores[i] = {
           value: area._id,
-          label: area.descricao,
+          label: area.nome,
         };
       }
       vetAreas[i] = {
         value: area._id,
-        label: area.descricao,
+        label: area.nome,
       };
     }
 
@@ -178,45 +176,6 @@ function Carrinho() {
     alterarLinha("cursos", cursosIds, linha._id);
   }
 
-  //Caixa de seleção de DISCIPLINAS
-  function getSelectDisciplinas() {
-    const vetDisciplinas = [];
-    const disciplinasAnteriores = [];
-    for (let i = 0; i < disciplinas.length; i++) {
-      const disciplina = disciplinas[i];
-      if (linha.disciplinas.includes(disciplina._id)) {
-        disciplinasAnteriores[i] = {
-          value: disciplina._id,
-          label: disciplina.nome,
-        };
-      }
-      vetDisciplinas[i] = {
-        value: disciplina._id,
-        label: disciplina.nome,
-      };
-    }
-
-    return (
-      <Select
-        isMulti
-        isClearable={false}
-        options={vetDisciplinas}
-        defaultValue={disciplinasAnteriores}
-        value={disciplinasSelecionadas}
-        onChange={onChangeSelectDisciplinas}
-        styles={selectStyles}
-      />
-    );
-  }
-
-  function onChangeSelectDisciplinas(valores) {
-    setDisciplinasSelecionadas(valores);
-    const disciplinasIds = [];
-    for (let i = 0; i < valores.length; i++) {
-      disciplinasIds[i] = valores[i].value;
-    }
-    alterarLinha("disciplinas", disciplinasIds, linha._id);
-  }
 
   //Função para geração do formulário
   function getFormulario() {
@@ -253,14 +212,15 @@ function Carrinho() {
     return (
       <tr key={linha._id}>
         <td>{linha._id}</td>
-        <td>{linha.descricao}</td>
+        <td>{linha.cliente}</td>
+        <td>{linha.produto}</td>
         <td>
           <button
             type="button"
             onClick={() => {
               if (
                 window.confirm(
-                  "Confirmar a exclusão da linha " + linha.descricao + "?"
+                  "Confirmar a exclusão da linha " + linha._id + "?"
                 )
               ) {
                 excluirLinha(linha._id);
