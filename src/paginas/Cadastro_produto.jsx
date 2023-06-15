@@ -20,22 +20,33 @@ function Cadastro_produto() {
       preco: preco,
     };
 
-    axios
+    if(produto._id){
+      axios.put("http://localhost:3000/produto/" + produto._id,formData).then(() => {
+        alert("produto editado com sucesso!")
+        reiniciarEstadoDosObjetos();
+      });
+    }else{
+      axios
       .post("http://localhost:3000/produto", formData)
       .then(response => {
-        alert("Dados Salvos com sucesso");
-        setName("");
+        alert("Dados enviados com sucesso");
+        setProduto("");
         setDescricao("");
         setMarca("");
         setPreco("");
-        setProdutos(); // Atualiza a lista de clientes após o salvamento bem-sucedido
-        getProdutos();
+        reiniciarEstadoDosObjetos();
       })
       .catch(error => {
         console.error("Erro ao enviar os dados:", error);
       });
+    }
+    
   }
 
+  function reiniciarEstadoDosObjetos() {
+    setProduto(null);
+    getProdutos();
+  }
   function cancelar() {
     setProduto(null);
   }
@@ -69,7 +80,7 @@ function Cadastro_produto() {
         <td>{produto.descricao}</td>
         <td>{produto.marca}</td>
         <td>{produto.preco}</td>
-        
+        <td>
           <button
             onClick={() => {
               if (
@@ -86,12 +97,12 @@ function Cadastro_produto() {
           </button>
           <button
             onClick={() => {
-              editarProduto(produto._id);
+              setProduto(produto);
             }}
           >
             Editar
           </button>
-        
+          </td>
       </tr>
     );
   }
@@ -111,6 +122,7 @@ function Cadastro_produto() {
             <th>Descricao</th>
             <th>Marca</th>
             <th>Preço</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>{getLinhas()}</tbody>

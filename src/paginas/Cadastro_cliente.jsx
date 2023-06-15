@@ -21,8 +21,13 @@ function Cadastro_cliente() {
       cpf: cpf
     };
 
-    
-    axios
+    if(cliente._id){
+      axios.put("http://localhost:3000/cliente/" + cliente._id,formData).then(() => {
+        alert("CLiente editado com sucesso!")
+        reiniciarEstadoDosObjetos();
+      });
+    }else{
+      axios
       .post("http://localhost:3000/cliente", formData)
       .then(response => {
         alert("Dados enviados com sucesso");
@@ -31,23 +36,25 @@ function Cadastro_cliente() {
         setData_nasc("");
         setContato("");
         setCpf("");
-        getClientes(); // Atualiza a lista de clientes após o salvamento bem-sucedido
+        reiniciarEstadoDosObjetos();
       })
       .catch(error => {
         console.error("Erro ao enviar os dados:", error);
       });
-      
+    }
     
+  }
+
+  function reiniciarEstadoDosObjetos() {
+    setCliente(null);
+    getClientes();
   }
 
   function cancelar() {
     setCliente(null);
   }
 
-  function editarCliente(cliente) {
-    setCliente(cliente);
-  }
-
+  
   function getClientes() {
     console.log("Passou por aqui...");
     axios.get("http://localhost:3000/cliente").then(resposta => {
@@ -90,7 +97,7 @@ function Cadastro_cliente() {
           </button>
           <button
             onClick={() => {
-              editarCliente(cliente);
+              setCliente(cliente);
             }}
           >
             Editar
@@ -112,9 +119,10 @@ function Cadastro_cliente() {
             <th>ID</th>
             <th>Nome</th>
             <th>Endereço</th>
-            <th>Data Nasc</th>
+            <th>Data De Nascimento</th>
             <th>CPF</th>
             <th>Contato</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>{getLinhas()}</tbody>
