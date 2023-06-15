@@ -3,8 +3,6 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Select from "react-select";
 
-//npm install react-select
-//Estilos do componente react-select
 const selectStyles = {
   control: (baseStyles, state) => ({
     ...baseStyles,
@@ -18,15 +16,13 @@ const selectStyles = {
 };
 
 function Carrinho() {
-  //Entidades e listas utilizadas na página
   const [linha, setLinha] = useState(null);
   const [linhas, setLinhas] = useState([]);
   const [areas, setAreas] = useState([]);
-  const [areasSelecionadas, setAreasSelecionadas] = useState();
   const [cursos, setCursos] = useState([]);
-  const [cursosSelecionados, setCursosSelecionados] = useState();
- 
-  //Funções de carregamento de dados do backend
+  const [areasSelecionadas, setAreasSelecionadas] = useState([]);
+  const [cursosSelecionados, setCursosSelecionados] = useState([]);
+
   function getLinhas() {
     axios.get("http://localhost:3000/pedido").then((resposta) => {
       setLinhas(resposta.data);
@@ -45,19 +41,16 @@ function Carrinho() {
     });
   }
 
-  
   useEffect(() => {
     getAreas();
     getLinhas();
     getCursos();
-   
   }, []);
 
-  //Funções para manipulação da entidade principal
   function novaLinha() {
     setLinha({
-      areas: [],
-      cursos: [],
+      cliente: "",
+      produto: "",
     });
   }
 
@@ -90,36 +83,37 @@ function Carrinho() {
   function reiniciarEstadoDosObjetos() {
     setLinha(null);
     getLinhas();
-    setAreasSelecionadas();
-    setCursosSelecionados();
-
+    setAreasSelecionadas([]);
+    setCursosSelecionados([]);
   }
 
-  //Funções para a construção da tela
-  //Caixa de seleção de ÁREAS
+  function onChangeSelectAreas(valores) {
+    setAreasSelecionadas(valores);
+    const areasNomes = valores.map((valor) =>
+      areas.find((area) => area._id === valor.value).nomeCliente
+    );
+    alterarLinha("cliente", areasNomes, linha._id);
+  }
+
+  function onChangeSelectCursos(valores) {
+    setCursosSelecionados(valores);
+    const cursosNomes = valores.map((valor) =>
+      cursos.find((curso) => curso._id === valor.value).nomeProduto
+    );
+    alterarLinha("produto", cursosNomes, linha._id);
+  }
+
   function getSelectAreas() {
-    const vetAreas = [];
-    const areasAnteriores = [];
-    for (let i = 0; i < areas.length; i++) {
-      const area = areas[i];
-      if (linha.areas.includes(area._id)) {
-        areasAnteriores[i] = {
-          value: area._id,
-          label: area.nome,
-        };
-      }
-      vetAreas[i] = {
-        value: area._id,
-        label: area.nome,
-      };
-    }
+    const vetAreas = areas.map((area) => ({
+      value: area._id,
+      label: area.nomeCliente,
+    }));
 
     return (
       <Select
         isMulti
         isClearable={false}
         value={areasSelecionadas}
-        defaultValue={areasAnteriores}
         onChange={onChangeSelectAreas}
         options={vetAreas}
         styles={selectStyles}
@@ -127,39 +121,17 @@ function Carrinho() {
     );
   }
 
-  function onChangeSelectAreas(valores) {
-    setAreasSelecionadas(valores);
-    const areasIds = [];
-    for (let i = 0; i < valores.length; i++) {
-      areasIds[i] = valores[i].value;
-    }
-    alterarLinha("areas", areasIds, linha._id);
-  }
-
-  //Caixa de seleção de CURSOS
   function getSelectCursos() {
-    const vetCursos = [];
-    const cursosAnteriores = [];
-    for (let i = 0; i < cursos.length; i++) {
-      const curso = cursos[i];
-      if (linha.cursos.includes(curso._id)) {
-        cursosAnteriores[i] = {
-          value: curso._id,
-          label: curso.nome,
-        };
-      }
-      vetCursos[i] = {
-        value: curso._id,
-        label: curso.nome,
-      };
-    }
+    const vetCursos = cursos.map((curso) => ({
+      value: curso._id,
+      label: curso.nomeProduto,
+    }));
 
     return (
       <Select
         isMulti
         isClearable={false}
         value={cursosSelecionados}
-        defaultValue={cursosAnteriores}
         onChange={onChangeSelectCursos}
         options={vetCursos}
         styles={selectStyles}
@@ -167,22 +139,9 @@ function Carrinho() {
     );
   }
 
-  function onChangeSelectCursos(valores) {
-    setCursosSelecionados(valores);
-    const cursosIds = [];
-    for (let i = 0; i < valores.length; i++) {
-      cursosIds[i] = valores[i].value;
-    }
-    alterarLinha("cursos", cursosIds, linha._id);
-  }
-
-
-  //Função para geração do formulário
   function getFormulario() {
     return (
       <form>
-        
-       
         <label>Clientes</label>
         {getSelectAreas()}
         <label>Produtos</label>
@@ -207,7 +166,6 @@ function Carrinho() {
     );
   }
 
-  //Funções para geração da tabela
   function getLinhaDaTabela(linha) {
     return (
       <tr key={linha._id}>
@@ -243,12 +201,7 @@ function Carrinho() {
   }
 
   function getLinhasDaTabela() {
-    const linhasDaTabela = [];
-    for (let i = 0; i < linhas.length; i++) {
-      const linha = linhas[i];
-      linhasDaTabela[i] = getLinhaDaTabela(linha);
-    }
-    return linhasDaTabela;
+    return linhas.map((linha) => getLinhaDaTabela(linha));
   }
 
   function getTabela() {
@@ -258,8 +211,8 @@ function Carrinho() {
           <tr>
             <th>ID</th>
             <th>Cliente</th>
-            <th>Ações</th>
             <th>Produto</th>
+            <th>Ações</th>
           </tr>
           {getLinhasDaTabela()}
         </tbody>
@@ -267,7 +220,6 @@ function Carrinho() {
     );
   }
 
-  //Função do conteúdo principal
   function getConteudo() {
     if (linha == null) {
       return (

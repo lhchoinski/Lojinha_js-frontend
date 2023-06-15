@@ -1,8 +1,7 @@
 
-
 function Footer(){
     return (
-        <footer>Rodapé</footer>
+        <footer className="footer">Rodapé</footer>
     );
 }
 
