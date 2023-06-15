@@ -1,11 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
 *{
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
 }
-
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+main{
+  min-height: 66vh;
+}
 .footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
+  margin-top: auto;
   width: 100%;
   background-color: rgb(223, 218, 218);
   background-color: #333;
@@ -25,7 +35,6 @@
 /* Estilos da navbar */
 .navbar {
   background-color: #333;
-  height: 38px;
   display: flex;
 }
 
@@ -39,15 +48,17 @@
 
 .navbar li {
   margin-right: 10px;
+  
 }
 
 .navbar a {
   text-decoration: none;
   color: #fcfcfc;
   padding: 20px;
+  display: flex;
 }
 
-.navbar a:hover {
+.navbar ul li a:hover {
   background-color: #57575775;
 }
 
@@ -91,6 +102,8 @@ button{
   cursor: pointer;
   padding: 10px;
   margin: 10px;
+  display: inline-flex;
+  
 }
 
 /* Estilos da seção principal (hero) */
@@ -142,12 +155,17 @@ button{
 .feature {
   text-align: center;
   width: 30%;
+  height: 320px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
 .feature img {
   width: 100%;
   max-width: 380px;
   height: auto;
+  object-fit: cover;
 }
 
 .feature h2 {

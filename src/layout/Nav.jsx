@@ -9,9 +9,9 @@ return (
     <li class="dropdown">
       <a href="#services">Serviços</a>
       <div class="dropdown-content">
-      <a><NavLink to="/carrinho">Carrinho</NavLink></a>
-      <a><NavLink to="/Cadastro_cliente">Clientes</NavLink></a>
-      <a><NavLink to="/Cadastro_produto">Produtos</NavLink></a>
+      <NavLink to="/carrinho">Carrinho</NavLink>
+      <NavLink to="/Cadastro_cliente">Clientes</NavLink>
+      <NavLink to="/Cadastro_produto">Produtos</NavLink>
       </div>
     </li>
     <li><NavLink to="/sobre">Sobre</NavLink></li>

@@ -29,6 +29,7 @@ function Cadastro_produto() {
         setMarca("");
         setPreco("");
         setProdutos(); // Atualiza a lista de clientes após o salvamento bem-sucedido
+        getProdutos();
       })
       .catch(error => {
         console.error("Erro ao enviar os dados:", error);
