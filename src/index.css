@@ -92,3 +92,69 @@ button{
   padding: 10px;
   margin: 10px;
 }
+
+/* Estilos da seção principal (hero) */
+.hero {
+  
+  background-size: cover;
+  background-position: center;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(12, 10, 161, 0.815);
+}
+
+.hero-content {
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.btn:hover {
+  background-color: #666;
+}
+
+/* Estilos da seção de recursos (features) */
+.features {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.feature {
+  text-align: center;
+  width: 30%;
+}
+
+.feature img {
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+}
+
+.feature h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.feature p {
+  font-size: 14px;
+}

@@ -1,7 +1,7 @@
 
 function Footer(){
     return (
-        <footer className="footer">Rodapé</footer>
+        <footer className="footer"><p>&copy; 2023 Nome da Empresa. Todos os direitos reservados.</p></footer>
     );
 }
 
